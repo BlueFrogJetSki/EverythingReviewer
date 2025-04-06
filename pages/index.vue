@@ -18,5 +18,7 @@
 async function  GoToEvents() {
   await navigateTo('/events');
 }
+
+
 </script>
   
