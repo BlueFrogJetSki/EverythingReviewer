@@ -7,18 +7,18 @@
       <div>
         <label for="title" class="block text-sm font-medium text-gray-700">Event Title<span
             class="text-red-500">*</span></label>
-        <input type="text" id="title" name="title" required
+        <input v-model="title" type="text" id="title" name="title" 
           class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 p-2 border" />
-        <p class="text-red-500 text-xs mt-1 hidden" id="title-error">Title is required</p>
+        <p v-if="titleError"  class="text-red-500 text-xs mt-1" id="title-error">{{ titleError }}</p>
       </div>
       <!-- Image -->
       <div class="space-y-2">
         <label for="imageURL" class="block text-sm font-medium text-gray-700">Upload Image<span
             class="text-red-500">*</span></label>
-        <input type="file" id="imageURL" name="imageURL" accept="image/*" @change="handleImageChange"
+        <input type="file" id="image" name="image" accept="image/*" @change="handleImageChange"
           class="w-full rounded-lg border border-gray-300 bg-white p-2 text-sm shadow-sm focus:border-blue-500 focus:ring focus:ring-blue-200" />
-        <p id="imageURL-error" v-if="imageError" class="text-xs text-red-500">{{ imageError }}</p>
-        <p id="imageURL-error" v-if="imageUploadResult" class="text-xs text-green-600">{{ imageUploadResult }}</p>
+        <p id="image-error" v-if="imageError" class="text-xs text-red-500">{{ imageError }}</p>
+        <p id="image-error" v-if="imageUploadResult" class="text-xs text-green-600">{{ imageUploadResult }}</p>
 
         <div class="flex justify-center items-center relative rounded-xl overflow-hidden">
           <!-- Background Image with matte effect -->
@@ -39,9 +39,9 @@
       <div>
         <label for="description" class="block text-sm font-medium text-gray-700">Description<span
             class="text-red-500">*</span></label>
-        <textarea id="description" name="description" rows="3" required
+        <textarea v-model="description" id="description" name="description" rows="3" 
           class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 p-2 border"></textarea>
-        <p class="text-red-500 text-xs mt-1 hidden" id="description-error">Description is required</p>
+        <p v-if = "descriptionError" class="text-red-500 text-xs mt-1 " id="description-error">Description is required</p>
       </div>
 
 
@@ -51,26 +51,26 @@
       <div>
         <label for="date" class="block text-sm font-medium text-gray-700">Event Date & Time<span
             class="text-red-500">*</span></label>
-        <input type="datetime-local" id="date" name="date" required
+        <input v-model = "dateTime" type="datetime-local" id="date" name="date" 
           class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 p-2 border" />
         <p class="text-xs text-gray-500 mt-1" id="date-helper">Select a date</p>
-        <p class="text-red-500 text-xs mt-1 hidden" id="date-error">Date must be in the future</p>
+        <p v-if="dateTimeError" class="text-red-500 text-xs mt-1 " id="date-error">{{ dateTimeError }}</p>
       </div>
 
       <!-- Minimum Age -->
       <div>
         <label for="minimum_age" class="block text-sm font-medium text-gray-700">Minimum Age</label>
-        <input type="number" id="minimum_age" name="minimum_age" min="0" value="0"
+        <input v-model="minimumAge" type="number" id="minimum_age" name="minimum_age" min="0"
           class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 p-2 border" />
-        <p class="text-red-500 text-xs mt-1 hidden" id="minimum_age-error">Age cannot be negative</p>
+        <p  v-if = "minimumAgeError" class="text-red-500 text-xs mt-1" id="minimum_age-error">Age cannot be negative</p>
       </div>
 
       <!-- Admission Fee -->
       <div>
         <label for="admission_fee" class="block text-sm font-medium text-gray-700">Admission Fee ($)</label>
-        <input type="number" id="admission_fee" name="admission_fee" min="0" step="0.01" value="0"
+        <input v-model="admissionFee" type="number" id="admission_fee" name="admission_fee" min="0" step="0.01"
           class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 p-2 border" />
-        <p class="text-red-500 text-xs mt-1 hidden" id="admission_fee-error">Fee cannot be negative</p>
+        <p v-if="admissionFeeError" class="text-red-500 text-xs mt-1" id="admission_fee-error">Fee cannot be negative</p>
       </div>
 
       <!-- Form Actions -->
@@ -97,21 +97,32 @@
 <script setup lang="ts">
 
 import { handleImageUpload } from '~/services/ImageUploadService/ImageUploadService'
+import { ValidateText } from '~/utils/ValidateField'
 
-const title = ref('')
 const image = ref<File | null>(null)
 const imageUploadResult = ref('')
 const imageURL = ref('')
 const imageError = ref('')
-const description = ref('')
-const dateTime = ref('');
-const minimumAge = ref<number | null>(null)
-const admissionFee = ref<number | null>(null)
 
+const title = ref('')
+const titleError = ref('')
+
+const description = ref('')
+const descriptionError = ref('')
+
+const dateTime = ref('');
+const dateTimeError = ref('')
+
+const minimumAge = ref<number>(0)
+const minimumAgeError = ref('')
+
+const admissionFee = ref<number>(0)
+const admissionFeeError = ref('')
 
 
 async function handleSubmit() {
-
+  
+  validateForm()
 }
 
 
@@ -147,6 +158,9 @@ async function handleImageChange(event: Event) {
 
 //validate each field of the form
 function validateForm(){
+  ValidateText("Title", title.value, 1, 80, titleError)
+  ValidateText("Description", description.value, 1, 280, descriptionError)
+  ValidateDateTime("Event Date & Time", dateTime.value, dateTimeError)
 
 }
 
@@ -157,7 +171,7 @@ function clearForm() {
   image.value = null
   description.value = ''
   dateTime.value = ''
-  minimumAge.value = null
-  admissionFee.value = null
+  minimumAge.value = 0
+  admissionFee.value = 0
 }
 </script>

@@ -1,9 +1,10 @@
 import imageCompression from 'browser-image-compression';
 
 //get nuxt config
-const config = useRuntimeConfig();
+
 
 async function getImageUploadUrl(imageName: string): Promise<string> {
+  const config = useRuntimeConfig();
   const getSecureUrlServiceUrl = config.public.secureUrlService;
 
   let url = `${getSecureUrlServiceUrl}key=${imageName}`;
