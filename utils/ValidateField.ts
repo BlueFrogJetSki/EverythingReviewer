@@ -9,7 +9,7 @@ export const ValidateText = (
   minLength: number = 1,
   maxLength: number = 80,
   errorRef: Ref<string>,
-  invalidChars? : string[]
+//   invalidChars? : string[]
 ) => {
   //clear existing err message
   errorRef.value = "";
@@ -23,7 +23,6 @@ export const ValidateText = (
   }
 
   if (text.length < minLength) {
-    console.log(text.length);
     errorRef.value = `${fieldName} must have ${minLength} characters or more`;
   }
 

@@ -41,10 +41,18 @@
             class="text-red-500">*</span></label>
         <textarea v-model="description" id="description" name="description" rows="3" 
           class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 p-2 border"></textarea>
-        <p v-if = "descriptionError" class="text-red-500 text-xs mt-1 " id="description-error">Description is required</p>
+        <p v-if = "descriptionError" class="text-red-500 text-xs mt-1 " id="description-error">{{ descriptionError }}</p>
       </div>
 
+      <!-- Location -->
 
+      <div>
+        <label for="Location" class="block text-sm font-medium text-gray-700">Location<span
+            class="text-red-500">*</span></label>
+        <input v-model="location" id="Location" name="Location" rows="3" 
+          class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 p-2 border"></input>
+        <p v-if = "locationError" class="text-red-500 text-xs mt-1 " id="Location-error">{{ locationError }}</p>
+      </div>
 
 
       <!-- Date & Time -->
@@ -110,6 +118,10 @@ const titleError = ref('')
 const description = ref('')
 const descriptionError = ref('')
 
+const location = ref('')
+const locationError = ref('')
+
+
 const dateTime = ref('');
 const dateTimeError = ref('')
 
@@ -160,6 +172,7 @@ async function handleImageChange(event: Event) {
 function validateForm(){
   ValidateText("Title", title.value, 1, 80, titleError)
   ValidateText("Description", description.value, 1, 280, descriptionError)
+  ValidateText("Location", location.value, 1, 280, locationError)
   ValidateDateTime("Event Date & Time", dateTime.value, dateTimeError)
 
 }
