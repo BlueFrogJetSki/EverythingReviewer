@@ -2,7 +2,7 @@
 export default defineNuxtConfig({
   compatibilityDate: '2024-11-01',
   devtools: { enabled: true },
-  modules: ['@nuxtjs/tailwindcss'],
+  modules: ['@nuxtjs/tailwindcss', 'vue3-carousel-nuxt'],
   app: {
     head: {
       // update Nuxt defaults
@@ -14,7 +14,10 @@ export default defineNuxtConfig({
 
     // public variables (available client-side too)
     public: {
-      secureUrlService: process.env.NUXT_PUBLIC_SECURE_URL_SERVICE,
+      secureUrlService: process.env.NUXT_PUBLIC_SECURE_URL_SERVICE, 
+      authService: process.env.NUXT_PUBLIC_AUTH_SERVICE,
+      uploadReviewService:process.env.NUXT_PUBLIC_UPLOAD_REVIEW_SERVICE,
+      fetchReviewService:process.env.NUXT_PUBLIC_FETCH_REVIEW_SERVICE
     }
   }
 })

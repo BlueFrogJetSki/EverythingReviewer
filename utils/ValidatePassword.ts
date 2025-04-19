@@ -2,7 +2,7 @@
 //returns an empty string if password is good, else return error message
 export function ValidatePassword(password: string): string{
     // Check if password length is at least 12 characters
-    if (password.length < 12) {
+    if (password.length < 8) {
         return "Password must be at least 12 characters long.";
     }
 

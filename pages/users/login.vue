@@ -1,16 +1,30 @@
 <script setup>
 import { ref } from 'vue'
+import { handleLoginIn } from '~/services/AuthService/AuthService'
 
 const email = ref('')
 const password = ref('')
+const regError = ref('');
+const regResult = ref('');
 
-const handleSubmit = () => {
+const handleSubmit =async  () => {
+    regError.value = ''
     // Handle form submission logic (e.g., authentication API call)
-    console.log(`Email: ${email.value}, Password: ${password.value}`)
+    let result = await handleLoginIn({Email:email.value, Password:password.value},regError)
+ 
+    if (result) {
+        regResult.value = "Sign Up Successful, redirecting ..."
+        GoToHome()
+    }
 }
 
 async function GoToSignUp() {
     await navigateTo('/users/signup');
+}
+
+async function GoToHome() {
+    await navigateTo('/');
+    window.location.reload();
 }
 </script>
 <template>
@@ -33,6 +47,8 @@ async function GoToSignUp() {
                         class="w-full p-3 mt-1 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-600"
                         placeholder="Enter your password" />
                 </div>
+
+                <p v-if="regError" class="text-red-500 text-xs p-2">{{ regError }}</p>
 
                 <button type="submit"
                     class="w-full py-3 bg-blue-950 text-white rounded-md font-medium hover:bg-blue-800 focus:outline-none focus:ring-2 focus:ring-blue-600">
