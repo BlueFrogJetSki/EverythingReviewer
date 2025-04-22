@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { ref } from 'vue'
 import { handleSignUp } from '~/services/AuthService/AuthService';
-import { ValidatePassword } from '~/utils/ValidatePassword';
+import { ValidatePassword } from '~/utils/ValidateField';
 
 const username = ref('')
 const email = ref('')
@@ -9,24 +9,18 @@ const password = ref('')
 const confirmPassword = ref('')
 const regResult = ref('');
 
-
 const emailError = ref('');
 const passwordError = ref('');
 const confirmPasswordError = ref('');
 const regError = ref('');
 
-
-async function GoToLoginIn() {
-    await navigateTo('/users/login');
-}
-
-async function GoToEvents() {
-    await navigateTo('/events');
-}
-
 const handleSubmit = async () => {
+    console
+    if (!validateForm()) return
+
+
     regError.value = ''
-    passwordError.value = ValidatePassword(password.value)
+
 
     if (password.value != confirmPassword.value) {
         confirmPasswordError.value = "looks like your password doesn't match"
@@ -39,15 +33,32 @@ const handleSubmit = async () => {
 
     if (result) {
         regResult.value = "Sign Up Successful, redirecting ..."
-        GoToEvents()
+        GoToHome()
     }
 
+}
+
+function validateForm() {
+    clearErrors()
+
+    passwordError.value = ValidatePassword(password.value)
+    emailError.value = ValidateEmail(email.value)
+
+    return (emailError.value == '' && passwordError.value == '')
+
+
+
+}
+
+function clearErrors() {
+    passwordError.value = ''
+    emailError.value = ''
 }
 </script>
 <template>
     <div class="flex items-center justify-center h-screen bg-gray-100">
         <div class="bg-white p-8 rounded-lg shadow-lg max-w-sm w-full">
-            <h2 class="text-xl md:text-2xl font-bold text-center text-blue-950 mb-6">Login to UBC Party Finder &#127881;
+            <h2 class="text-xl md:text-2xl font-bold text-center text-blue-950 mb-6">Login to Public Reivews &#128128;
             </h2>
 
             <form @submit.prevent="handleSubmit">
@@ -85,14 +96,14 @@ const handleSubmit = async () => {
                 </div>
                 <p v-if="regError" class="text-red-500 text-xs p-2">{{ regError }}</p>
                 <button type="submit"
-                    class="w-full py-3 bg-blue-950 text-white rounded-md font-medium hover:bg-blue-800 focus:outline-none focus:ring-2 focus:ring-blue-600">
+                    class="w-full py-3  bg-gray-800 text-white rounded-md font-medium hover:bg-gray-950 focus:outline-none focus:ring-2 focus:ring-blue-600">
                     Sign Up
                 </button>
             </form>
 
             <p class="mt-4 text-sm text-center">
                 Already have an account?
-                <a @click="GoToLoginIn" class="text-blue-600 hover:underline">Login</a>
+                <a @click="GoToLogin" class="text-blue-600 hover:underline">Login</a>
             </p>
         </div>
     </div>

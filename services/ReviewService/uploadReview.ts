@@ -11,7 +11,7 @@ export const uploadReview = async (name:string, model:IReviewUpload, resultRef:R
     console.log(url)
     
     const res = await fetch(url , {
-        method:"POST",
+        method:"POST", 
         headers: {
             'Content-Type': 'application/json',
             "Authorization": `Bearer ${sessionStorage.getItem('jwt')}`,

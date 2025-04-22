@@ -7,33 +7,45 @@ const password = ref('')
 const regError = ref('');
 const regResult = ref('');
 
-const handleSubmit =async  () => {
+const handleSubmit = async () => {
+    //return if validation failsa
+    if (!validateForm()) return
+
     regError.value = ''
     // Handle form submission logic (e.g., authentication API call)
-    let result = await handleLoginIn({Email:email.value, Password:password.value},regError)
- 
+    let result = await handleLoginIn({ Email: email.value, Password: password.value }, regError)
+
     if (result) {
         regResult.value = "Sign Up Successful, redirecting ..."
         GoToHome()
     }
 }
 
-async function GoToSignUp() {
-    await navigateTo('/users/signup');
+
+
+function validateForm() {
+    clearErrors()
+
+    const passwordError = ValidatePassword(password.value)
+    const emailError = ValidateEmail(email.value)
+
+    regError.value = "Incorrect email or password"
+
+    return (emailError == '' && passwordError == '')
+
 }
 
-async function GoToHome() {
-    await navigateTo('/');
-    window.location.reload();
+function clearErrors() {
+    regError.value = ''
 }
 </script>
 <template>
     <div class="flex items-center justify-center h-screen bg-gray-100">
         <div class="bg-white p-8 rounded-lg shadow-lg max-w-sm w-full">
-            <h2 class="text-xl md:text-2xl font-bold text-center text-blue-950 mb-6">Login to UBC Party Finder &#127881;
+            <h2 class="text-xl md:text-2xl font-bold text-center text-blue-950 mb-6">Login to Public Reivews &#128128;
             </h2>
 
-            <form @submit.prevent="handleSubmit">
+            <form @submit.prevent="handleSubmit" autocomplete="on">
                 <div class="mb-4">
                     <label for="email" class="block text-sm font-medium text-gray-700">Email</label>
                     <input id="email" type="email" v-model="email" required
@@ -51,7 +63,7 @@ async function GoToHome() {
                 <p v-if="regError" class="text-red-500 text-xs p-2">{{ regError }}</p>
 
                 <button type="submit"
-                    class="w-full py-3 bg-blue-950 text-white rounded-md font-medium hover:bg-blue-800 focus:outline-none focus:ring-2 focus:ring-blue-600">
+                    class="w-full py-3 bg-gray-800 text-white rounded-md font-medium hover:bg-gray-950 focus:outline-none focus:ring-2 focus:ring-blue-600">
                     Login
                 </button>
             </form>

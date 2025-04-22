@@ -9,7 +9,7 @@ export const fetchReview = async (name:string, resultRef:Ref<string>) => {
     let url = `${uploadReviewUrl}/${name}`;
 
 
-    try {
+    
     console.log(url)
     
     const res = await fetch(url , {
@@ -36,8 +36,5 @@ export const fetchReview = async (name:string, resultRef:Ref<string>) => {
     }
 
 
-  } catch (error ) {
-
-    resultRef.value = error as any
-  }
+  
 }

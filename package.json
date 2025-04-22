@@ -10,6 +10,7 @@
     "postinstall": "nuxt prepare"
   },
   "dependencies": {
+    "@nuxt/ui": "^3.0.2",
     "@nuxtjs/tailwindcss": "^6.13.2",
     "@vueuse/core": "^13.1.0",
     "browser-image-compression": "^2.0.2",

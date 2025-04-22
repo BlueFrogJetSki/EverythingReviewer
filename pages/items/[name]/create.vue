@@ -41,6 +41,7 @@
 
 <script setup lang="ts">
 
+import { tr } from '@nuxt/ui/runtime/locale/index.js'
 import { ref } from 'vue'
 import { uploadReview } from '~/services/ReviewService/uploadReview'
 import { ValidateText } from '~/utils/ValidateField'
@@ -63,7 +64,9 @@ const resultErrorRef = ref('')
 
 async function handleSubmit() {
 
-  validateForm()
+  if (validateForm() == false) return;
+
+  
   const result = await uploadReview(name, { text: text.value, rating: rating.value }, resultErrorRef);
 
   if (!result) { return }
@@ -112,11 +115,16 @@ async function GoToItem() {
 
 //validate each field of the form
 function validateForm() {
-
+  clearErrors() 
+ 
   if (rating.value == 0) {
     ratingError.value = "Rating is required"
   }
-  ValidateText("text", text.value, 1, 280, textError)
+
+
+  textError.value = ValidateText("text", text.value, 1, 280)
+
+  return (textError.value == '' && ratingError.value == '')
 
 }
 
@@ -129,5 +137,11 @@ function clearForm() {
   ratingError.value = ''
   resultErrorRef.value = ''
 
+}
+
+function clearErrors() {
+  textError.value = ''
+  resultErrorRef.value = ''
+  ratingError.value= ''
 }
 </script>

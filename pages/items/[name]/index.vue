@@ -7,8 +7,31 @@ const route = useRoute()
 const name = route.params.name as string
 
 const resultRef = ref('')
+let avgRating = 0;
 
-const reviews =  await fetchReview(name as string, resultRef) as IReviewDTO[]
+const calculateAvgRating = (reviews: IReviewDTO[] | null) => {
+  if(reviews == null) {
+    return 0;
+  }else {
+    let result= 0;
+    reviews.forEach(r => {
+      result += r.rating
+    });
+
+    return Math.round(result/reviews.length)
+  }
+}
+
+let reviews: IReviewDTO[] | null = null
+try {
+  reviews = await fetchReview(name as string, resultRef) as IReviewDTO[]
+} catch (error) {
+  resultRef.value = "Server Error"
+}
+
+avgRating= calculateAvgRating(reviews)
+
+
 
 //fetch reviews done!
 //fetch avg score
@@ -18,9 +41,12 @@ const reviews =  await fetchReview(name as string, resultRef) as IReviewDTO[]
 
 
   <div class="flex flex-col w-full gap-5 p-4">
-    <ReviewPageHeader :name="name"></ReviewPageHeader>
-    <ReviewItem v-for="r in reviews" :review="r"></ReviewItem>
-    <span class="text-xl text-gray-800" v-if="reviews == null || reviews.length == 0"> Be the first to review this item</span>
+    <ReviewPageHeader :name="name" :avg-rating="avgRating"></ReviewPageHeader>
+    <ReviewItem v-if="reviews != null" v-for="r in reviews" :review="r"></ReviewItem>
+    <span class="text-xl text-gray-800" v-if="reviews != null && reviews.length == 0"> Be the first to review this
+      item</span>
+
+    <span class="text-5xl text-gray-800" v-if="reviews == null">Server Error :(</span>
 
 
   </div>
