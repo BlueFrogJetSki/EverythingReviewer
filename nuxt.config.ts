@@ -17,7 +17,8 @@ export default defineNuxtConfig({
       secureUrlService: process.env.NUXT_PUBLIC_SECURE_URL_SERVICE, 
       authService: process.env.NUXT_PUBLIC_AUTH_SERVICE,
       uploadReviewService:process.env.NUXT_PUBLIC_UPLOAD_REVIEW_SERVICE,
-      fetchReviewService:process.env.NUXT_PUBLIC_FETCH_REVIEW_SERVICE
+      fetchReviewService:process.env.NUXT_PUBLIC_FETCH_REVIEW_SERVICE,
+      profileService:process.env.NUXT_PUBLIC_PROFILE_SERVICE
     }
   }
 })
