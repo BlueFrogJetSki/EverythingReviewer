@@ -19,9 +19,11 @@ export const handleSignUp = async (
     });
     if (!res.ok) {
       const error = await res.json();
-      errorRef.value = error.message;
+      console.log(error)
+      errorRef.value = error?.message?.RegistrationError?.errors?.[0]?.errorMessage || 'Unknown error';
       return false;
     }
+    
 
     const data = await res.json();
     const token = data.token;
