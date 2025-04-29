@@ -59,7 +59,7 @@ function clearErrors() {
                         class="w-full p-3 mt-1 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-600"
                         placeholder="Enter your password" />
                 </div>
-
+                
                 <p v-if="regError" class="text-red-500 text-xs p-2">{{ regError }}</p>
 
                 <button type="submit"

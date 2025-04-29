@@ -7,18 +7,18 @@ const route = useRoute()
 const name = route.params.name as string
 
 const resultRef = ref('')
-let avgRating = 0;
+const avgRatingRef = ref(0);
 
 const calculateAvgRating = (reviews: IReviewDTO[] | null) => {
-  if(reviews == null) {
+  if (reviews == null) {
     return 0;
-  }else {
-    let result= 0;
+  } else {
+    let result = 0;
     reviews.forEach(r => {
       result += r.rating
     });
 
-    return Math.round(result/reviews.length)
+    return Math.round(result / reviews.length)
   }
 }
 
@@ -29,7 +29,9 @@ try {
   resultRef.value = "Server Error"
 }
 
-avgRating= calculateAvgRating(reviews)
+avgRatingRef.value = calculateAvgRating(reviews)
+
+console.log(avgRatingRef.value)
 
 
 
@@ -40,13 +42,18 @@ avgRating= calculateAvgRating(reviews)
 <template>
 
 
-  <div class="flex flex-col w-full gap-5 p-4">
-    <ReviewPageHeader :name="name" :avg-rating="avgRating"></ReviewPageHeader>
-    <ReviewItem v-if="reviews != null" v-for="r in reviews" :review="r"></ReviewItem>
-    <span class="text-xl text-gray-800" v-if="reviews != null && reviews.length == 0"> Be the first to review this
-      item</span>
+  <div class="flex flex-col w-full gap-5 p-4 md:items-center">
+    <ReviewPageHeader :name="name" :avg-rating="avgRatingRef"></ReviewPageHeader>
+    <ClientOnly>
+      <ReviewItem v-if="reviews != null" v-for="r in reviews" :review="r"></ReviewItem>
+      <div class=" flex justify-center"><span class="text-xl text-gray-800 font-semibold "
+          v-if="reviews != null && reviews.length == 0"> Be the first to review this 
+          item &#9757;</span>
+      </div>
 
-    <span class="text-5xl text-gray-800" v-if="reviews == null">Server Error :(</span>
+
+      <span class="text-5xl text-gray-800" v-if="reviews == null">Server Error :(</span>
+    </ClientOnly>
 
 
   </div>

@@ -4,6 +4,7 @@ export interface IReviewUpload {
 }
 
 export interface IReviewDTO {
+  pfpUrl:string
   username: string;
   text: string;
   rating: number;

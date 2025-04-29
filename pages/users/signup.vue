@@ -15,12 +15,8 @@ const confirmPasswordError = ref('');
 const regError = ref('');
 
 const handleSubmit = async () => {
-    console
     if (!validateForm()) return
-
-
     regError.value = ''
-
 
     if (password.value != confirmPassword.value) {
         confirmPasswordError.value = "looks like your password doesn't match"
@@ -45,9 +41,6 @@ function validateForm() {
     emailError.value = ValidateEmail(email.value)
 
     return (emailError.value == '' && passwordError.value == '')
-
-
-
 }
 
 function clearErrors() {
@@ -58,7 +51,7 @@ function clearErrors() {
 <template>
     <div class="flex items-center justify-center h-screen bg-gray-100">
         <div class="bg-white p-8 rounded-lg shadow-lg max-w-sm w-full">
-            <h2 class="text-xl md:text-2xl font-bold text-center text-blue-950 mb-6">Login to Public Reivews &#128128;
+            <h2 class="text-xl md:text-2xl font-bold text-center text-blue-950 mb-6">Sign up to Public Reivews &#128128;
             </h2>
 
             <form @submit.prevent="handleSubmit">

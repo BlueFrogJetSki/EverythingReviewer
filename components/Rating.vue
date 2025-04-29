@@ -17,7 +17,7 @@
     modelValue: { type: Number, required: true },
     max: { type: Number, default: 5 }
   })
-  
+  console.log(props.modelValue)
   const emit = defineEmits(['update:modelValue'])
   
   function updateRating(value) {

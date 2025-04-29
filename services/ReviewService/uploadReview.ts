@@ -20,6 +20,10 @@ export const uploadReview = async (name:string, model:IReviewUpload, resultRef:R
     });
 
     console.log(res)
+    if(res.status == 401) {
+      GoToLogin()
+    }
+
 
     if (!res.ok) {
         resultRef.value = `${res.status} failed to upload review`

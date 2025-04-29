@@ -1,17 +1,27 @@
 <template>
-    <div class="review-item flex gap-4 border p-4 rounded shadow-sm mb-4 bg-white">
+    <div class="md:w-1/2 review-item flex gap-4 border p-4 rounded shadow-sm mb-4 bg-white">
         <!-- <img :src="review.profileImage" alt="Profile" class="w-12 h-12 rounded-full object-cover" /> -->
 
-        <div class="flex gap-4 items-center">
-            <img :src="review.profilePictureUrl" alt="Profile Picture"
-                class="w-12 h-12 rounded-full object-cover border border-gray-300 shadow-sm">
+        <div class=" flex gap-4 items-center w-full">
 
-            <div class="flex-1">
+            <img v-if="review.pfpUrl" :src="review.pfpUrl" alt="Profile Picture"
+                class="min-w-12 h-12 rounded-full object-cover border border-gray-300 shadow-sm">
+
+            <svg v-else viewBox="0 0 24 24" fill="currentColor"
+                class="min-w-12 h-12 text-gray-300 rounded-full border border-gray-300 shadow-sm">
+                <circle cx="12" cy="8" r="4" />
+                <path d="M4 20c0-4 4-6 8-6s8 2 8 6" />
+            </svg>
+
+            <div class="flex flex-col flex-grow">
                 <div class="flex justify-between items-center mb-1">
                     <h3 class="font-semibold text-lg">{{ review.username }}</h3>
-                    <span class="text-yellow-500">{{ '★'.repeat(review.rating) }}</span>
+                    <Rating :modelValue="review.rating" />
                 </div>
-                <p class="text-gray-700">{{ review.text }}</p>
+                <p class="text-gray-700 break-all overflow-hidden text-ellipsis line-clamp-3">
+                    {{ review.text }}
+                </p>
+
                 <p class="text-sm text-gray-500 mt-2">{{ formatDate(review.createdAt) }}</p>
             </div>
         </div>
@@ -20,12 +30,16 @@
 </template>
 
 <script setup>
-defineProps({
+import Rating from './Rating.vue';
+
+
+//TODO add pagination
+//TODO make text extensible 
+const props = defineProps({
     review: {
         type: Object,
-        required: true,
         default: () => ({
-            profilePictureUrl:'https://images.unsplash.com/photo-1575936123452-b67c3203c357?q=80&w=1170&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D',
+            pfpUrl: '../assets/burger-menu-svgrepo-com.svg',
             username: '',
             text: '',
             rating: 0,
@@ -33,6 +47,7 @@ defineProps({
         })
     }
 })
+
 
 function formatDate(date) {
     if (date == '') return;

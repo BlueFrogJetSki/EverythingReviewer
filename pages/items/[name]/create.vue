@@ -1,3 +1,76 @@
+<script setup lang="ts">
+import { ref } from 'vue'
+import { ValidateJWT } from '~/services/AuthService/ValidateJWT'
+import { uploadReview } from '~/services/ReviewService/uploadReview'
+import { ValidateText } from '~/utils/ValidateField'
+
+//check unauthorized redirect
+if (!(await ValidateJWT())) {
+  GoToLogin()
+}
+const route = useRoute()
+const name = (route.params.name as string).toUpperCase()
+
+const text = ref('')
+const textError = ref('')
+
+const rating = ref(0)
+const ratingError = ref('')
+
+const resultRef = ref('')
+const resultErrorRef = ref('')
+
+async function handleSubmit() {
+
+  if (validateForm() == false) return;
+
+
+  const result = await uploadReview(name, { text: text.value, rating: rating.value }, resultErrorRef);
+
+  if (!result) { return }
+
+
+  resultRef.value = "upload successful, now redirecting ..."
+  GoToItem()
+
+
+}
+
+async function GoToItem() {
+  await navigateTo(`/items/${name}`);
+}
+//validate each field of the form
+function validateForm() {
+  clearErrors()
+
+  if (rating.value == 0) {
+    ratingError.value = "Rating is required"
+  }
+
+
+  textError.value = ValidateText("text", text.value, 1, 280)
+
+  return (textError.value == '' && ratingError.value == '')
+
+}
+
+function clearForm() {
+  text.value = ''
+  textError.value = ''
+  rating.value = 0;
+  ratingError.value = ''
+  resultErrorRef.value = ''
+
+}
+
+function clearErrors() {
+  textError.value = ''
+  resultErrorRef.value = ''
+  ratingError.value = ''
+}
+</script>
+
+
 <template>
   <div class="max-w-2xl mx-auto p-6">
     <h1 class="text-2xl mb-6">Leave a review for <span class="text-2xl font-bold">{{ name }}</span></h1>
@@ -38,110 +111,3 @@
     </form>
   </div>
 </template>
-
-<script setup lang="ts">
-
-import { tr } from '@nuxt/ui/runtime/locale/index.js'
-import { ref } from 'vue'
-import { uploadReview } from '~/services/ReviewService/uploadReview'
-import { ValidateText } from '~/utils/ValidateField'
-
-
-const route = useRoute()
-const name = (route.params.name as string).toUpperCase()
-
-const text = ref('')
-const textError = ref('')
-
-const rating = ref(0)
-const ratingError = ref('')
-
-const resultRef = ref('')
-const resultErrorRef = ref('')
-
-
-
-
-async function handleSubmit() {
-
-  if (validateForm() == false) return;
-
-  
-  const result = await uploadReview(name, { text: text.value, rating: rating.value }, resultErrorRef);
-
-  if (!result) { return }
-
-
-  resultRef.value = "upload successful, now redirecting ..."
-  GoToItem()
-
-
-}
-
-async function GoToItem() {
-    await navigateTo(`/items/${name}`);
-}
-
-
-// async function handleImageChange(event: Event) {
-//   imageUploadResult.value = ''
-//   imageError.value = ''
-//   imageURL.value = ''
-//   const target = (event.target as HTMLInputElement)
-
-//   const file = target.files?.[0] || null
-
-//   if (file == null) {
-//     //give err message
-//     imageError.value = "File missing"
-//     return
-//   }
-
-//   try {
-//     //upload image to s3 bucket
-//     const imageUrl = await handleImageUpload(file)
-//     //give sccuess message
-//     imageUploadResult.value = "Image upload sccessful"
-//     imageURL.value = imageUrl
-
-//   } catch (error) {
-//     //give err message
-//     if (error instanceof Error) {
-//       imageError.value = error.message
-//     }
-//   }
-
-// }
-
-//validate each field of the form
-function validateForm() {
-  clearErrors() 
- 
-  if (rating.value == 0) {
-    ratingError.value = "Rating is required"
-  }
-
-
-  textError.value = ValidateText("text", text.value, 1, 280)
-
-  return (textError.value == '' && ratingError.value == '')
-
-}
-
-
-
-function clearForm() {
-  text.value = ''
-  textError.value = ''
-  rating.value = 0;
-  ratingError.value = ''
-  resultErrorRef.value = ''
-
-}
-
-function clearErrors() {
-  textError.value = ''
-  resultErrorRef.value = ''
-  ratingError.value= ''
-}
-</script>

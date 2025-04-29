@@ -1,5 +1,5 @@
-export async function GoToSignUp() {
-    await navigateTo('/users/signup');
+export function GoToSignUp() {
+    return  navigateTo('/users/signup');
 }
 
 export async function GoToHome() {
@@ -7,6 +7,14 @@ export async function GoToHome() {
     window.location.reload();
 }
 
-export async function GoToLogin() {
-    await navigateTo('/users/login');
+export function GoToLogin() {
+    return  navigateTo('/users/login');
+}
+
+export function GoToProfile() {
+    return navigateTo('/users/profile');
+}
+
+export function GoToEditProfile() {
+    return navigateTo('/users/profile/edit');
 }

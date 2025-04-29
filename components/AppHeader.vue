@@ -1,3 +1,29 @@
+<script setup lang="ts">
+import { ClientOnly } from '#components';
+import { ValidateJWT } from '~/services/AuthService/ValidateJWT';
+function handleLogOut() {
+    sessionStorage.removeItem('jwt')
+    GoToHome()
+    window.location.reload()
+}
+
+function handleCloseDrawerAfterClick(func: any) {
+    handleDrawer()
+    func()
+}
+
+const authenticatedRef = await ValidateJWT()
+
+const isDrawerOpen = ref(false)
+
+const handleDrawer = () => {
+    isDrawerOpen.value = !isDrawerOpen.value
+}
+
+
+
+</script>
+
 <template>
     <header class="w-full h-20 md:h-auto flex items-center justify-between px-6 py-4 shadow-md ">
         <button @click="GoToHome">
@@ -5,8 +31,8 @@
                 Public Reivews &#128128;
             </div>
         </button>
-
-        <div v-if="!validated" class="flex items-center space-x-4">
+        <ClientOnly>
+        <div v-if="!authenticatedRef" class="flex items-center space-x-4">
             <button @click="GoToLogin"
                 class="px-2 md:px-4 py-2 font-bold text-sm md:text-lg text-gray-600 bg-white/10 backdrop-blur-md rounded hover:bg-white/20 border border-white/30">
                 Login
@@ -17,45 +43,29 @@
             </button>
         </div>
 
-        <div v-if="validated" class="flex items-center space-x-4 ">
+        <div v-if="authenticatedRef" class="flex items-center space-x-4 ">
             <button @click="handleDrawer">
                 <img src="../assets/burger-menu-svgrepo-com.svg" width="24" height="24">
             </button>
 
         </div>
+    </ClientOnly>
 
-       
     </header>
-    <AppDrawer v-if="validated" :open="isDrawerOpen" @close="handleDrawer" >
-        <div class="flex items-center space-x-4">
-            <button @click="handleLogOut"
-                class="px-2 md:px-4 py-2 font-semibold text-sm md:text-lg text-gray-800 bg-white/10 backdrop-blur-md rounded hover:bg-white/20 border border-white/30">
+    <ClientOnly>
+    <AppDrawer v-if="authenticatedRef" :open="isDrawerOpen" @close="handleDrawer">
+        <div class="flex flex-col items-start">
+            <button @click="handleCloseDrawerAfterClick(GoToProfile)"
+                class="px-2 md:px-4 py-2 font-semibold text-md md:text-lg text-gray-800 bg-white/10 backdrop-blur-md rounded hover:bg-white/20 border border-white/30">
+                Profile
+            </button>
+            <button @click="handleCloseDrawerAfterClick(handleLogOut)"
+                class="px-2 md:px-4 py-2 font-semibold text-md md:text-lg text-gray-800 bg-white/10 backdrop-blur-md rounded hover:bg-white/20 border border-white/30">
                 Log out
             </button>
-            
+
         </div>
     </AppDrawer>
+    </ClientOnly>
 </template>
 
-<script setup>
-import { ValidateJWT } from '~/services/AuthService/ValidateJWT';
-
-function handleLogOut() {
-    sessionStorage.removeItem('jwt')
-    window.location.reload()
-}
-
-const validated = await ValidateJWT()
-
-const isDrawerOpen = ref(false)
-
-const handleDrawer = () => {
-  isDrawerOpen.value = !isDrawerOpen.value
-}
-
-
-
-
-
-
-</script>
