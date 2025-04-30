@@ -42,6 +42,7 @@ export const handleLoginIn = async (
 ) => {
   const config = useRuntimeConfig();
   const url = `${config.public.authService}/login`;
+  console.log(url)
 
   try {
     const res = await fetch(url, {
@@ -52,6 +53,7 @@ export const handleLoginIn = async (
       credentials: "include",
       body: JSON.stringify(model),
     });
+    console.log(res)
     if (res.status == 401) {
       errorRef.value = "Incorrect email or password";
       return false;

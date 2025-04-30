@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import { ClientOnly } from '#components';
 import { ValidateJWT } from '~/services/AuthService/ValidateJWT';
+import { getAppName } from '~/utils/GetMetaData';
 function handleLogOut() {
     sessionStorage.removeItem('jwt')
     GoToHome()
@@ -20,6 +21,8 @@ const handleDrawer = () => {
     isDrawerOpen.value = !isDrawerOpen.value
 }
 
+const appName = getAppName()
+
 
 
 </script>
@@ -28,7 +31,7 @@ const handleDrawer = () => {
     <header class="w-full h-20 md:h-auto flex items-center justify-between px-6 py-4 shadow-md ">
         <button @click="GoToHome">
             <div class="text-base md:text-xl lg:text-2xl  font-bold text-gray-900">
-                Public Reivews &#128128;
+                {{ appName }} &#128128;
             </div>
         </button>
         <ClientOnly>

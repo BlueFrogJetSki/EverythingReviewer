@@ -18,7 +18,8 @@ export default defineNuxtConfig({
       authService: process.env.NUXT_PUBLIC_AUTH_SERVICE,
       uploadReviewService:process.env.NUXT_PUBLIC_UPLOAD_REVIEW_SERVICE,
       fetchReviewService:process.env.NUXT_PUBLIC_FETCH_REVIEW_SERVICE,
-      profileService:process.env.NUXT_PUBLIC_PROFILE_SERVICE
+      profileService:process.env.NUXT_PUBLIC_PROFILE_SERVICE,
+      appName:process.env.NUXT_PUBLIC_APP_NAME
     }
   }
 })

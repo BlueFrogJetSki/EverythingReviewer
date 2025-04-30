@@ -4,15 +4,7 @@
 
         <div class=" flex gap-4 items-center w-full">
 
-            <img v-if="review.pfpUrl" :src="review.pfpUrl" alt="Profile Picture"
-                class="min-w-12 h-12 rounded-full object-cover border border-gray-300 shadow-sm">
-
-            <svg v-else viewBox="0 0 24 24" fill="currentColor"
-                class="min-w-12 h-12 text-gray-300 rounded-full border border-gray-300 shadow-sm">
-                <circle cx="12" cy="8" r="4" />
-                <path d="M4 20c0-4 4-6 8-6s8 2 8 6" />
-            </svg>
-
+            <ProfilePfp :pfp-url="review.pfpUrl"/>
             <div class="flex flex-col flex-grow">
                 <div class="flex justify-between items-center mb-1">
                     <h3 class="font-semibold text-lg">{{ review.username }}</h3>
