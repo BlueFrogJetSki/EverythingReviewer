@@ -1,5 +1,6 @@
 <template>
-    <span>{{ textTypedRef }} {{ input }}<span class="font-thin"> {{ showCursorRef ? '_' : '\u00A0' }}</span></span>
+    <span>{{ textTypedRef }} {{ input }}<span class="font-thin"> <span :style="{ opacity: showCursorRef ? 1 : 0 }">_</span>
+</span></span>
 </template>
 <script setup lang="ts">
 
@@ -27,7 +28,7 @@ const showText = () => {
 const blinkCursor = () => {
     cursorInterval = setInterval(() => {
         showCursorRef.value = !showCursorRef.value
-    }, 500)
+    }, 530)
 }
 
 
