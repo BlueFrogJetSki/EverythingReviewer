@@ -24,7 +24,7 @@ async function GoToItems() {
         </h1>
         <SearchBar v-model="search" :handle-search="GoToItems"></SearchBar>
       </div>
-      <div class="p-6">
+      <div class="p-6 overflow-x-hidden overflow-y-auto">
         <h2 class="min-w-52 text-3xl font-semibold text-gray-950 mb-4 ">Recent Reviews</h2>
         <ClientOnly>
           <ReviewListDisplay></ReviewListDisplay>
