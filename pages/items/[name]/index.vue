@@ -2,6 +2,7 @@
 import type { IReviewDTO } from '~/Interfaces/IReview'
 import { fetchReview } from '~/services/ReviewService/fetchReview'
 
+
 const route = useRoute()
 
 const name = route.params.name as string
@@ -25,6 +26,7 @@ const calculateAvgRating = (reviews: IReviewDTO[] | null) => {
 let reviews: IReviewDTO[] | null = null
 try {
   reviews = await fetchReview(name as string, resultRef) as IReviewDTO[]
+  reviews.sort((a, b) => new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime());
 } catch (error) {
   resultRef.value = "Server Error"
 }
@@ -45,11 +47,15 @@ console.log(avgRatingRef.value)
   <div class="flex flex-col w-full gap-5 p-4 md:items-center">
     <ReviewPageHeader :name="name" :avg-rating="avgRatingRef"></ReviewPageHeader>
     <ClientOnly>
-      <ReviewItem v-if="reviews != null" v-for="r in reviews" :review="r"></ReviewItem>
+      <div class="w-1/2">
+        <ReviewItem v-if="reviews != null" v-for="r in reviews" :review="r"></ReviewItem>
+      </div>
+
       <div class=" flex justify-center"><span class="text-xl text-gray-800 font-semibold "
-          v-if="reviews != null && reviews.length == 0"> Be the first to review this 
+          v-if="reviews != null && reviews.length == 0"> Be the first to review this
           item &#9757;</span>
       </div>
+
 
 
       <span class="text-5xl text-gray-800" v-if="reviews == null">Server Error :(</span>

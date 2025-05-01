@@ -1,6 +1,6 @@
 <template>
     <div class="w-full flex flex-col items-center justify-between px-6 py-4">
-        <h2 class="text-5xl text-gray-800 font-bold ">{{ name.toString().toUpperCase() }}</h2>
+        <h2 class="text-5xl text-gray-800 font-bold text-center">{{ name.toString().toUpperCase() }}</h2>
         <ClientOnly>
             <Rating :model-value="avgRating"></Rating>
         </ClientOnly>
