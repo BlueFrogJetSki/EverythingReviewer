@@ -1,21 +1,19 @@
 <template>
-    <div class="review-item flex gap-4 border p-4 rounded shadow-sm mb-4 bg-white">
-        <!-- <img :src="review.profileImage" alt="Profile" class="w-12 h-12 rounded-full object-cover" /> -->
-
+    <div class="review-item flex gap-4 border p-4 rounded shadow-sm mb-4 bg-white" @click="handleClick ">
         <div class=" flex gap-4 items-center w-full">
 
             <ProfilePfp :pfp-url="review.pfpUrl"/>
-            <div class="flex flex-col flex-grow gap-4">
+            <div class="flex flex-col flex-grow ">
                 <div class="flex justify-between items-center mb-1">
                     <h3 class="font-semibold text-lg">{{ review.username }}</h3>
-                    <Rating :modelValue="review.rating" />
+                    
                 </div>
-                
-                <p class="text-gray-700 break-all overflow-hidden text-ellipsis line-clamp-3">
+                <Rating :modelValue="review.rating" />
+                <p class="text-gray-700 break-all overflow-hidden text-ellipsis line-clamp-3 text-left">
                     {{ review.text }}
                 </p>
 
-                <p class="text-sm text-gray-500 mt-2">{{ formatDate(review.createdAt) }}</p>
+                <p class="text-sm text-gray-500 mt-2 text-left">{{ formatDate(review.createdAt) }}</p>
             </div>
         </div>
 
@@ -32,18 +30,32 @@ const props = defineProps({
     review: {
         type: Object,
         default: () => ({
+            id:'',
             pfpUrl: '../assets/burger-menu-svgrepo-com.svg',
             username: '',
             text: '',
             rating: 0,
             createdAt: '',
+            item:''
         })
+    },
+    clickable: {
+        type: Boolean,
+        default: false,
     }
 })
+
+console.log(props.clickable)
 
 
 function formatDate(date) {
     if (date == '') return;
     return new Date(date).toLocaleDateString()
+}
+
+const handleClick = () => {
+    if(!props.clickable) return;
+    console.log("clicked")
+    GoToItems(props.review.item)
 }
 </script>

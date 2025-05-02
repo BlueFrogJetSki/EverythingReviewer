@@ -48,7 +48,7 @@ console.log(avgRatingRef.value)
     <ReviewPageHeader :name="name" :avg-rating="avgRatingRef"></ReviewPageHeader>
     <ClientOnly>
       <div class="w-full md:w-1/2">
-        <ReviewItem v-if="reviews != null" v-for="r in reviews" :review="r"></ReviewItem>
+        <ReviewItem v-if="reviews != null" v-for="r in reviews" :review="r" :key="r.id"></ReviewItem>
       </div>
 
       <div class=" flex justify-center"><span class="text-xl text-gray-800 font-semibold "

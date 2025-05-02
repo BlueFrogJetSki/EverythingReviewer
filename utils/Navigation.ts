@@ -18,3 +18,9 @@ export function GoToProfile() {
 export function GoToEditProfile() {
     return navigateTo('/users/profile/edit');
 }
+export function GoToItems(item:string) {
+    console.log(item)
+    if (item === '') { return }
+    return navigateTo(`/items/${item}`);
+  
+  }

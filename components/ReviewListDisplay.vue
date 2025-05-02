@@ -14,7 +14,7 @@ console.log(reviews)
 
 <template>
 <div class="w-full grid md:grid-cols-2 gap-6">
-    <ReviewItem v-for="r in reviews" :review="r"></ReviewItem>
+    <ReviewItem v-for="r in reviews" :review="r" :clickable="true" :key="r.id"></ReviewItem>
     
 </div>
 </template>
