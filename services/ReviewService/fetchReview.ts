@@ -48,3 +48,34 @@ export const fetchRecentReviews =async (num: Number) => {
   return data
 
 };
+
+export const fetchPaginatedReviews =async (page: Number, limit:Number) => {
+  const config = useRuntimeConfig();
+  const url = `${config.public.fetchReviewService}?page=${page}&limit=${limit}`;
+  
+  const res = await fetch(`${url}`);
+  
+  if(!res.ok) {
+    return []
+  }
+
+  const data = await res.json()
+ 
+  return data
+
+};
+
+export const fetchReviewCount = async () => {
+  const config = useRuntimeConfig();
+  const url = `${config.public.fetchReviewService}/count`;
+
+  const res = await fetch(`${url}`);
+
+  if(!res.ok) {
+    return 0
+  }
+
+  const data = await res.json()
+ 
+  return data
+}
