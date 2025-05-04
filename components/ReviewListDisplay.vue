@@ -5,7 +5,7 @@ import ReviewItem from './ReviewItem.vue'
 import { fetchPaginatedReviews, fetchReviewCount } from '~/services/ReviewService/fetchReview'
 
 const page = ref(1)
-const limit = 15
+const limit = 10
 const hasMorePages = ref(true)
 const reviews = ref<IReviewDTO[]>([])
 const loader = ref<HTMLElement | null>(null)
