@@ -24,7 +24,7 @@ const title = "Latest Reviews"
         </h1>
         <SearchBar v-model="search" :handle-search="GoToItems"></SearchBar>
       </div>
-      <div class="p-6 overflow-x-hidden overflow-y-auto">
+      <div class="p-6 w-screen h-screen">
 
         <ClientOnly>
           <template #fallback>

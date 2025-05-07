@@ -39,10 +39,12 @@ onMounted(() => {
 
 
 <template>
+  <div class="w-full flex flex-col items-center">
     <h2 class="min-w-52 text-3xl font-semibold text-gray-950">{{ props.title }}</h2>
     <span class="text-sm text-gray-500">({{ totalReviewCount }} reviews)</span>
-    <div class="w-full grid md:grid-cols-2 gap-6">
+    <div class="w-3/4 grid md:grid-cols-2 gap-6">
         <ReviewItem v-for="r in reviews" :review="r" :clickable="true" :key="r.id"></ReviewItem>
         <div ref="loader" class="loader"><span class="text-sm font-semibold" v-if="hasMorePages">Loading more...</span></div>
     </div>
+  </div>
 </template>
