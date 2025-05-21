@@ -30,8 +30,9 @@ const appName = getAppName()
 <template>
     <header class="w-full h-20 md:h-auto flex items-center justify-between px-6 py-4 shadow-md ">
         <button @click="GoToHome">
-            <div class="text-base md:text-xl lg:text-2xl  font-bold text-gray-900">
-                {{ appName }} &#128128;
+            <div class="flex items-center ">
+                <span class="text-base md:text-xl lg:text-2xl  font-bold text-gray-900 p-2">{{ appName }}</span>
+                 <img src="../public/favicon.svg" alt="Logo" class="w-6 h-6 md:w-8 md:h-8" />
             </div>
         </button>
         <ClientOnly>

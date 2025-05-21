@@ -8,6 +8,9 @@ export default defineNuxtConfig({
       // update Nuxt defaults
       charset: 'utf-16',
       viewport: 'width=device-width, initial-scale=1, maximum-scale=1',
+      link: [
+        { rel: 'icon', type: 'image/x-icon', href: '/favicon.svg' }
+      ]
     }
   },
   runtimeConfig: {
