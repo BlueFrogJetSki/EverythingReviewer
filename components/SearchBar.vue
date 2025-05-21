@@ -1,6 +1,6 @@
 <template>
   <div class="flex items-center border rounded-lg px-3 py-2 shadow-sm bg-white">
-    <input type="text" :placeholder="placeholder" class="w-full outline-none" v-model="search"
+    <input type="text" :placeholder="placeholder" class="w-full max-w-full md:max-w-lg  outline-none" v-model="search"
       @input="$emit('update:modelValue', search)" @keyup.enter="handleSearch" />
     <button @click="handleSearch">
       <svg class="w-5 h-5 text-gray-400 cursor-pointer" fill="none" stroke="currentColor" stroke-width="2"
